@@ -1,0 +1,11 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'network/bulma.min.css' %}">
+
+<h1>Register</h1><br />
+<form action="{% url 'new_registered' %}" method="post">  
+{% csrf_token %}
+    <input class="input is-primary" type="text" placeholder="Username" id="user_name" name="user_name">
+    <input class="input is-primary" type="text" placeholder="Password" id="password" name="password">
+    <button class="button is-primary" type="submit">Submit</button>
+</form>
+
