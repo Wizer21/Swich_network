@@ -2,32 +2,34 @@
 <link rel="stylesheet" type="text/css" href="{% static 'network/bulma.min.css' %}">
 
 <h1>Welcome</h1>
-<p>{{ user }}</p>
+<p>{{ user }}</p><br /> 
 <!-- New Publication -->
 {% if user != "" %}
-    <form action="{% url 'publication' %}" method="post">
-        <input class="textarea " id="publication_text" name="publication_text" placeholder="Write your publication here">
-        <input class="button" type="submit" value="Submit">
+    <form action="{% url 'publication' %}" method="post">{% csrf_token %}
+        <input class="textarea " type="text" id="publication_text" name="publication_text" placeholder="Write your publication here">
+        <button class="button" type="submit">Submit</button>
     </form>
 {% endif %}
 
+<br /> 
+
 <!-- Login -->
-<form action="{% url 'login' %}" method="get">  
-    {% csrf_token %}
-        <button class="button is-link" type="submit">Login</button>
+<form action="{% url 'login' %}" method="get">{% csrf_token %}
+    <button class="button is-link" type="submit">Login</button>
 </form>
+
+<br /> 
 
 <!-- Publication list -->
 {% if publication_list %}
 {% for publication in publication_list %}
-    <p>publication.name</p><br />
     <div class="box">
         <article class="media">
             <div class="media-content">
                 <div class="content">
                     <p>
-                        <strong>publication.user_name</strong><small>publication.date</small><br />
-                        publication.date
+                        <strong>{{ publication.user_name }}</strong> <small>{{ publication.date  }}</small><br />
+                        {{ publication.text }}
                     </p>
                 </div>
             </div>
