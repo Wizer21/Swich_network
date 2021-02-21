@@ -1,25 +1,32 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'network/bulma.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'network/network.css' %}">
 
-<!-- Home -->
-<form action="{% url 'home' %}" method="post">
-    {% csrf_token %}
-    <button class="button is-primary" type="submit">Home</button>
-</form>
+<div id = "register">
+    <div>  
+        <!-- Home -->
+        <form action="{% url 'home' %}" method="post">
+            {% csrf_token %}
+            <button class="button is-info" type="submit">Home</button>
+        </form>
+        <!-- Login -->
+        <form action="{% url 'login' %}" method="get">  
+        {% csrf_token %}
+            <button class="button is-info" type="submit">Login</button>
+        </form>
+    </div>  
+    <div>
+        <!-- Register -->
+        <p class="title is-1">Register</p>
+        <h1>{{ error }}</h1><br />
 
-<!-- Register -->
-<h1>Register</h1><br />
-<h1>{{ error }}</h1><br />
-
-<form action="{% url 'register' %}" method="post">  
-{% csrf_token %}
-    <input class="input is-primary" type="text" placeholder="Username" id="user_name" name="user_name">
-    <input class="input is-primary" type="text" placeholder="Password" id="password" name="password">
-    <button class="button is-primary" type="submit">Submit</button>
-</form>
-
-<!-- Login -->
-<form action="{% url 'login' %}" method="post">  
-{% csrf_token %}
-    <button class="button is-primary" type="submit">Login</button>
-</form>
+        <form action="{% url 'register' %}" method="post">  
+        {% csrf_token %}
+            <input class="input is-info register_content" type="text" placeholder="Username" id="user_name" name="user_name">
+            <input class="input is-info register_content" type="text" placeholder="Password" id="password" name="password">
+            <button class="button is-info register_content" type="submit">Submit</button>
+        </form>     
+    </div>  
+    <div>
+    </div>
+</div>

@@ -1,12 +1,11 @@
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.utils import timezone
 
-
 from .models import User, Publication
 
-user_logged = ""
+user_logged = None
 
 def home(request):
     return render(request, "network/flux.html", {
@@ -18,13 +17,24 @@ def register(request):
     global user_logged
 
     new_username = request.POST.get("user_name")
-    if new_username:
-        # Username entered
+    new_password = request.POST.get("password")
 
-        if User.objects.filter(us_name = new_username).exists():            
+    if request.method == "POST":
+        # POST request
+        if new_username == "":   
+            # No username entered              
+            return render(request, "network/register.html", {
+                "error": "Username not entered"
+            })
+        elif new_password == "":  
+            # No password entered          
+            return render(request, "network/register.html", {
+                "error": "Password not entered"
+            })
+        elif User.objects.filter(us_name = new_username).exists():            
             # Already exist
             return render(request, "network/register.html", {
-                "error": "User Already exist"
+                "error": "Username not avaible"
             })
         else:    
             # Username free to use
@@ -40,10 +50,10 @@ def login(request):
     global user_logged
 
     entered_username = request.POST.get("user_name")
-    if entered_username:
-        # Username entered
+    if request.method == "POST":
+        # POST request
         if User.objects.filter(us_name = entered_username).exists():            
-            # Username exists
+            # Username exists            
             user = User.objects.get(us_name = entered_username)
             if request.POST.get("password") == str(user.us_password):  
                 # Password valid
@@ -65,3 +75,20 @@ def publication(request):
         new_post = Publication.objects.create(user_id = current_user.id, user_name = current_user.us_name, text = new_text, date = timezone.now()) 
     
     return HttpResponseRedirect(reverse('home'))     
+
+def logout(request):
+    global user_logged
+    user_logged = None
+
+    return HttpResponseRedirect(reverse('home')) 
+
+def profile_edit(request):
+    if request.method == "POST":
+        user = User.objects.get(us_name = user_logged)
+        user.us_name = request.POST.get("username")
+
+        return HttpResponseRedirect(reverse('home'))        
+    else:
+        return render(request, "network/profile.html", {
+            "user": User.objects.get(us_name = user_logged)
+        })

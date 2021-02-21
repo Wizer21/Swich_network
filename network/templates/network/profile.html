@@ -1,0 +1,19 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'network/bulma.min.css' %}">
+
+<!--  Home  -->
+<form action="{% url 'home' %}">{% csrf_token %}
+    <button class="button" type="submit">Home</button>
+</form>         
+
+<!--  Display profile picture  -->
+<figure class="image is-128x128">
+    <img type="submit" src="https://bulma.io/images/placeholders/128x128.png">
+</figure>     
+
+<!--  Upload button  -->
+<form action="{% url 'profile_edit' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+    <input type="file" name="uploaded_file">
+    <input type="textarea" name="username" value="{{ user.us_name }}">
+    <button class="button" type="submit">Save</button>
+</form>         

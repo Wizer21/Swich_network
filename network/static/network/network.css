@@ -1,0 +1,42 @@
+#home_page
+{
+    border-top: 50px solid transparent;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+#flux
+{
+    width: 800;
+}
+
+#login
+{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+}
+.login_content
+{
+    margin: 5px;
+}
+
+#register
+{
+    margin: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+}
+.register_content
+{
+    margin: 5px;
+}
+
+.submit_publication
+{
+    margin-top: 5px;
+}
