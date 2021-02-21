@@ -4,15 +4,46 @@ from django.urls import reverse
 
 from .models import User
 
+user_logged = ""
+
 def home(request):
-    return render(request, "network/flux.html")
+    return render(request, "network/flux.html", {
+        "user": user_logged
+    })
 
-def register(request):    
-    return render(request, "network/register.html")
+def register(request):
+    if request.POST.get("user_name"):
+        if User.objects.filter(name = request.POST.get("user_name")).exists():
+            print("User Already exist")
+            return render(request, "network/register.html", {
+                "error": "User Already exist"
+            })
+        else:
+            new_user = User(name = request.POST.get("user_name"), code = request.POST.get("password"))
+            new_user.save()
+            print("User created")
+            return HttpResponseRedirect(reverse('home'))
+    else:
+        return render(request, "network/register.html")
 
-def new_registered(request):
-    new_user = User(name = request.POST.get("user_name"), code = request.POST.get("password"))
-    new_user.save()
+def login(request):
+    global user_logged
 
-    print(User.objects.all())
-    return HttpResponseRedirect(reverse('home'))
+    entered_username = request.POST.get("user_name")
+    if entered_username:
+        # Username entered
+        if User.objects.filter(name = entered_username).exists():            
+            # Username exists
+            user = User.objects.get(name = entered_username)
+            if request.POST.get("password") == str(user.code):  
+                # Password valid
+                user_logged = entered_username
+                return HttpResponseRedirect(reverse('home'))              
+        # Password or Username incorrect
+        return render(request, "network/login.html", {
+            "error": "Unknow password or username",
+            "user_name": request.POST.get("user_name"),
+            "password": request.POST.get("password")
+        })
+    else:
+        return render(request, "network/login.html")

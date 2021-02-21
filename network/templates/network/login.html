@@ -1,1 +1,25 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'network/bulma.min.css' %}">
+
+<!-- Home -->
+<form action="{% url 'home' %}" method="post">
+    {% csrf_token %}
+    <button class="button is-primary" type="submit">Home</button>
+</form>
+
+<!-- Login -->
 <h1>Login</h1><br />
+<h1>{{ error }}</h1>
+<form action="{% url 'login' %}" method="post">  
+{% csrf_token %}
+    <input class="input is-primary" type="text" placeholder="Username" id="user_name" name="user_name" value="{{ user_name }}">
+    <input class="input is-primary" type="text" placeholder="Password" id="password" name="password" value="{{ password }}">
+    <button class="button is-primary" type="submit">Submit</button>
+</form>
+
+<!-- Register -->
+<form action="{% url 'register' %}" method="post">
+    {% csrf_token %}
+    <button class="button is-primary" type="submit">Register</button>
+</form>
+

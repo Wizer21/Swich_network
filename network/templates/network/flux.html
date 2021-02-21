@@ -1,9 +1,10 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'network/bulma.min.css' %}">
 
-<a>Hey ho</a>
+<h1>Welcome</h1>
+<p>{{ user }}</p>
 
-<form action="{% url 'register' %}" method="get">  
+<form action="{% url 'login' %}" method="get">  
     {% csrf_token %}
-        <button class="button is-link" type="submit">Register</button>
+        <button class="button is-link" type="submit">Login</button>
 </form>
