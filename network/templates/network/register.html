@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'network/bulma.min.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'network/network.css' %}">
 
-<div id = "register">
+<div class="splitted-3-page">
     <div>  
         <!-- Home -->
         <form action="{% url 'home' %}" method="post">
@@ -17,7 +17,7 @@
     </div>  
     <div>
         <!-- Register -->
-        <p class="title is-1">Register</p>
+        <p class="title is-2">Register</p>
         <h1>{{ error }}</h1><br />
 
         <form action="{% url 'register' %}" method="post">  

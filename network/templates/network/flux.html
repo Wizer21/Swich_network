@@ -2,20 +2,19 @@
 <link rel="stylesheet" type="text/css" href="{% static 'network/bulma.min.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'network/network.css' %}">
 
-<div id = "home_page">
+<div class="splitted-3-page">
     <div>
         {% if user %}
-            <!-- Display user logged -->
-            <figure class="image is-128x128">
-                <img type="submit" src="https://bulma.io/images/placeholders/128x128.png">
-            </figure><br />  
-
-            <form action="{% url 'profile_edit' %}" method="get">{% csrf_token %}
-                <button class="button is-outlined" type="submit" >{{ user }}</button>
-            </form>
-            <form action="{% url 'logout' %}" method="get">{% csrf_token %}
-                <button class="button is-link" type="submit">Logout</button>
-            </form>
+            <!-- Display user logged -->            
+            <a class="title" href="{% url 'profile' user.id %}">
+                <img src="https://bulma.io/images/placeholders/128x128.png">
+            </a><br />
+            <a class="title margin" href="{% url 'profile' user.id %}">
+                {{ user }}
+            </a><br /><br />
+            <a class="button margin is-danger is-light" href="{% url 'logout' %}">
+                Logout
+            </a>
         {% else %}
             <!-- Display offline -->
             <p class="title is-1">Welcome</p>
@@ -24,12 +23,13 @@
             </form>
         {% endif %}
     </div>
-    <div id = "flux">
+    <div class="flux">
         <!-- New Publication -->
         {% if user %}
             <form action="{% url 'publication' %}" method="post">{% csrf_token %}
-                <input class="textarea is-info" type="text" name="publication_text" placeholder="Write your publication here">
-                <button class="button is-info submit_publication" type="submit">Submit</button>
+                <input class="textarea is-info" rows="10" type="text" name="publication_text" id="user_text" placeholder="Write your publication here" >
+                <button class="button is-info margin" type="submit" id="button_connector">Submit</button>
+                <p id="display_text_size">0/250</p>
             </form>
         {% endif %}
 
@@ -39,24 +39,50 @@
             <div class="box">
                 <article class="media">                    
                     <div class="media-left">
-                        <figure class="image is-64x64">
-                            <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
-                        </figure>
+                        <a class="title" href="{% url 'profile' publication.user_id %}">
+                            <img src="https://bulma.io/images/placeholders/128x128.png">
+                        </a>
                     </div>
                     <div class="media-content">
                         <div class="content">
                             <p>
-                                <strong>{{ publication.user_name }}</strong> <small>{{ publication.date  }}</small><br />
+                                <a class="title" href="{% url 'profile' publication.user_id %}">{{ publication.user_name }}</a>
+                                <small>{{ publication.date  }}</small><br />
                                 {{ publication.text }}
                             </p>
                         </div>
                     </div>
                 </article>
             </div>
-        {% endfor %}
+        {% endfor %} 
         {% endif %}
     </div>
     <div>
-
     </div>
 </div>
+
+<script>
+    // Wait until the DOM is fully loaded to call any JS bind
+    document.addEventListener("DOMContentLoaded", function () {
+        
+        // Character count
+        document.querySelector("#user_text").addEventListener("input", () => {
+
+            const lElement = document.querySelector("#user_text");
+            display_text_size.innerHTML = lElement.value.length + "/250";
+
+            const button = document.querySelector("#button_connector");
+
+            if (lElement.value.length > 250) {
+                //Red and block Connection
+                display_text_size.style.color = "#cc0f35";
+                button.disabled = "disabled";
+            }
+            else{              
+                //Gray and enable Connection  
+                display_text_size.style.color = "#4a4a4a";
+                button.disabled = "";
+            }
+        });
+    });
+</script>

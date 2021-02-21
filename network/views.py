@@ -4,12 +4,18 @@ from django.urls import reverse
 from django.utils import timezone
 
 from .models import User, Publication
+from django.core.exceptions import ObjectDoesNotExist
 
 user_logged = None
 
 def home(request):
+    try:         
+        current_user = User.objects.get(us_name = user_logged)
+    except ObjectDoesNotExist:
+        current_user = None        
+
     return render(request, "network/flux.html", {
-        "user": user_logged,
+        "user": current_user,
         "publication_list": Publication.objects.all()
     })
 
@@ -70,7 +76,10 @@ def login(request):
     
 def publication(request):
     new_text = request.POST.get("publication_text")
-    if new_text != "":
+    size = len(new_text)
+    if size > 250:        
+        return HttpResponseRedirect(reverse('home'))    
+    elif new_text != "":
         current_user = User.objects.get(us_name = user_logged)
         new_post = Publication.objects.create(user_id = current_user.id, user_name = current_user.us_name, text = new_text, date = timezone.now()) 
     
@@ -89,6 +98,20 @@ def profile_edit(request):
 
         return HttpResponseRedirect(reverse('home'))        
     else:
-        return render(request, "network/profile.html", {
+        return render(request, "network/profile_edit.html", {
             "user": User.objects.get(us_name = user_logged)
         })
+
+def profile(request, user_id):
+    user_to_display = User.objects.get(id = user_id)
+
+    if user_logged == user_to_display.us_name:
+        editable = True
+    else:
+        editable = False
+
+    return render(request, "network/profile.html", {
+        "user": user_to_display,
+        "editable": editable,
+        "publications": Publication.objects.all()
+    })

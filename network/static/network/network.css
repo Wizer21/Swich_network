@@ -1,42 +1,34 @@
-#home_page
+.splitted-3-page
 {
     border-top: 50px solid transparent;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
 }
-#flux
+.flux
 {
     width: 800;
 }
 
-#login
-{
-    margin-top: 50px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-
-}
 .login_content
 {
     margin: 5px;
 }
 
-#register
-{
-    margin: 50px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-
-}
 .register_content
 {
     margin: 5px;
 }
 
-.submit_publication
+.margin
 {
     margin-top: 5px;
+}
+
+.no_border
+{
+    border: 30px solid transparent;
+    margin: 50px;
+    padding: 50px;
+    color: red;
 }
