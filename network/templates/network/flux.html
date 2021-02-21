@@ -3,8 +3,35 @@
 
 <h1>Welcome</h1>
 <p>{{ user }}</p>
+<!-- New Publication -->
+{% if user != "" %}
+    <form action="{% url 'publication' %}" method="post">
+        <input class="textarea " id="publication_text" name="publication_text" placeholder="Write your publication here">
+        <input class="button" type="submit" value="Submit">
+    </form>
+{% endif %}
 
+<!-- Login -->
 <form action="{% url 'login' %}" method="get">  
     {% csrf_token %}
         <button class="button is-link" type="submit">Login</button>
 </form>
+
+<!-- Publication list -->
+{% if publication_list %}
+{% for publication in publication_list %}
+    <p>publication.name</p><br />
+    <div class="box">
+        <article class="media">
+            <div class="media-content">
+                <div class="content">
+                    <p>
+                        <strong>publication.user_name</strong><small>publication.date</small><br />
+                        publication.date
+                    </p>
+                </div>
+            </div>
+        </article>
+    </div>
+{% endfor %}
+{% endif %}
