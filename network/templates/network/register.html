@@ -23,7 +23,7 @@
         <form action="{% url 'register' %}" method="post">  
         {% csrf_token %}
             <input class="input is-info register_content" type="text" placeholder="Username" id="user_name" name="user_name">
-            <input class="input is-info register_content" type="text" placeholder="Password" id="password" name="password">
+            <input class="input is-info register_content" type="password" placeholder="Password" id="password" name="password">
             <button class="button is-info register_content" type="submit">Submit</button>
         </form>     
     </div>  

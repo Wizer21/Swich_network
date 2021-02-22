@@ -92,9 +92,19 @@ def logout(request):
     return HttpResponseRedirect(reverse('home')) 
 
 def profile_edit(request):
+    global user_logged
+
     if request.method == "POST":
         user = User.objects.get(us_name = user_logged)
         user.us_name = request.POST.get("username")
+        user.save()
+
+        user_logged = request.POST.get("username")
+
+        for public in Publication.objects.all():
+            if public.user_id == user.id:
+                public.user_name = user_logged
+                public.save()
 
         return HttpResponseRedirect(reverse('home'))        
     else:

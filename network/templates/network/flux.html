@@ -7,7 +7,9 @@
         {% if user %}
             <!-- Display user logged -->            
             <a class="title" href="{% url 'profile' user.id %}">
-                <img src="https://bulma.io/images/placeholders/128x128.png">
+                <figure class="image is-128x128">
+                    <img class="is-rounded" src="../../static/network/images/profile.png">
+                </figure>
             </a><br />
             <a class="title margin" href="{% url 'profile' user.id %}">
                 {{ user }}
@@ -27,7 +29,7 @@
         <!-- New Publication -->
         {% if user %}
             <form action="{% url 'publication' %}" method="post">{% csrf_token %}
-                <input class="textarea is-info" rows="10" type="text" name="publication_text" id="user_text" placeholder="Write your publication here" >
+                <textarea  class="textarea" type="text" rows="3" name="publication_text" id="user_text" placeholder="Write your publication here" ></textarea>
                 <button class="button is-info margin" type="submit" id="button_connector">Submit</button>
                 <p id="display_text_size">0/250</p>
             </form>
@@ -40,7 +42,9 @@
                 <article class="media">                    
                     <div class="media-left">
                         <a class="title" href="{% url 'profile' publication.user_id %}">
-                            <img src="https://bulma.io/images/placeholders/128x128.png">
+                            <figure class="image is-96x96">
+                                <img class="is-rounded" src="../../static/network/images/profile.png">
+                            </figure>
                         </a>
                     </div>
                     <div class="media-content">

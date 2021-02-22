@@ -32,3 +32,9 @@
     padding: 50px;
     color: red;
 }
+
+.column_div
+{
+    display: flex;
+    flex-direction: row;
+}
